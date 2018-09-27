@@ -1,0 +1,517 @@
+<!DOCTYPE html>
+<!--
+This is a starter template page. Use this page to start your new project from
+scratch. This page gets rid of all links and provides the needed markup only.
+-->
+
+<html lang="en">
+
+<head>
+      <meta charset="utf-8"></meta>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"></meta>
+    <meta name="viewport" content="width=device-width, initial-scale=1"></meta>
+    <meta name="description" content=""></meta>
+    <meta name="author" content=""></meta>
+    <link rel="icon" type="image/png" sizes="16x16" href="../plugins/images/favicon.png"></link>
+    <title>Pixel Admin - Responsive Admin Dashboard Template built with Twitter Bootstrap</title>
+    <!-- Bootstrap Core CSS -->
+    <link th:href="@{bootstrap/dist/css/bootstrap.min.css}" rel="stylesheet"></link>
+    <!-- Menu CSS -->
+    <link th:href="@{plugins/bower_components/sidebar-nav/dist/sidebar-nav.min.css}" rel="stylesheet"></link>
+    <!-- toast CSS -->
+    <link th:href="@{plugins/bower_components/toast-master/css/jquery.toast.css}" rel="stylesheet"></link>
+    <!-- morris CSS -->
+    <link th:href="@{plugins/bower_components/morrisjs/morris.css}" rel="stylesheet"></link>
+    <!-- animation CSS -->
+    <link th:href="@{css/animate.css}" rel="stylesheet"></link>
+    <!-- Custom CSS -->
+    <link th:href="@{css/style.css}" rel="stylesheet"></link>
+    <!-- color CSS -->
+    <link th:href="@{css/colors/blue-dark.css}" id="theme" rel="stylesheet"></link>
+    <!-- DataTables -->
+   <link rel="stylesheet" href="datatables/dataTables.bootstrap.css"></link>
+    <!-- datatable CSS -->
+    <link th:href="@{css/jquery.dataTables.min.css}" rel="stylesheet"></link>
+     <link th:href="@{css/buttons.dataTables.min.css}" rel="stylesheet"></link>
+       
+   <link href="https://cdn.datatables.net/1.10.16/css/jquery.dataTables.min.css" rel="stylesheet"></link>
+	<link href="https://cdn.datatables.net/buttons/1.5.1/css/buttons.dataTables.min.css" rel="stylesheet"></link>
+   
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>-->
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <script src="js/jquery-1.12.4.js"></script>
+      <script>
+      $(function() {
+    	  //var optionsSelected = $('select').find('option');
+    	  $("#click").on('click', function() {
+        	  var id=$("#idetudiant").val();
+    	    var selectedOptions = $('select').children('option:selected');
+    	    var lst= new Array();
+            var i = 0;
+    	    selectedOptions.each(function(option) {
+        	    var cour=selectedOptions[option].innerHTML;
+    	       var data2 = {"idetu":id , "cour":cour};
+			    	   $.ajax({
+			                type: "GET",
+			                url: "/couraetud",
+			                dataType: 'JSON',
+			                data: data2,
+			                success: function(data , status) {
+			                },error:function(error , status) {
+			                }
+			            });
+    	    });
+
+    	   // location.reload();
+    	    //alert(lst);
+    	   
+    	  });
+    	});
+       function getcours(idet){//
+                $("#idetudiant").val(idet);
+          }
+
+  
+  	
+      	
+        
+    	  
+
+          
+   
+      function update(idcours){
+          alert("hello update ")
+    		var data2 = {"etudiantid":idcours}
+    		//alert(url)
+        	alert(idcours);
+    		$.ajax({
+                type: "GET",
+                url: "/updateEtudiant",
+                dataType: 'JSON',
+                data: data2,
+                success: function(data , status) {
+                  alert(data.id);
+                  $("#id").val(data.id);
+                  $("#nom").val(data.nom);
+                  $("#prenom").val(data.prenom);
+                  $("#rue").val(data.adresse.rue);
+                  $("#ville").val(data.adresse.ville);
+                  $("#specialite").val(data.specialite);
+                   
+                }
+            }); 
+            };
+
+            function affichercours(idetudiant){
+            	var data2 = {"etudiantid":idetudiant}
+        		$.ajax({
+                    type: "GET",
+                    url: "/affichercoursetudiant",
+                    dataType: 'text',
+                    data: data2,
+                    success: function(data , status) {
+                        console.log(status);
+                        console.log(data);
+                        $("#cours").html(data);
+                    }
+                }); 
+                };
+    </script>
+    
+</head>
+
+<body id="body">
+    <!-- Preloader -->
+    <div class="preloader">
+        <div class="cssload-speeding-wheel"></div>
+    </div>
+    <div id="wrapper">
+        <!-- Navigation -->
+        <nav class="navbar navbar-default navbar-static-top m-b-0">
+            <div class="navbar-header"> <a class="navbar-toggle hidden-sm hidden-md hidden-lg " href="javascript:void(0)" data-toggle="collapse" data-target=".navbar-collapse"><i class="fa fa-bars"></i></a>
+                <div class="top-left-part"><a class="logo" href="index.html">
+		                <b><img src="plugins/images/pixeladmin-logo.png" alt="home" /></b>
+		                <span class="hidden-xs"><img src="plugins/images/pixeladmin-text.png" alt="home" /></span>
+                </a></div>
+                <ul class="nav navbar-top-links navbar-left m-l-20 hidden-xs">
+                   
+                </ul>
+                <ul class="nav navbar-top-links navbar-right pull-right">
+                     <li>
+                        <a class="profile-pic" href="#"> <img src="plugins/images/users/varun.jpg" alt="user-img" width="36" class="img-circle"/><b class="hidden-xs">ROSSAMY YOUSSEF</b> </a>
+                    </li>
+                </ul>
+            </div>
+            <!-- /.navbar-header -->
+            <!-- /.navbar-top-links -->
+            <!-- /.navbar-static-side -->
+        </nav>
+        <!-- Left navbar-header -->
+       <div  th:replace="menu">
+        </div>
+        <!-- Left navbar-header end -->
+        <!-- Page Content -->
+        <div id="page-wrapper">
+            <div class="container-fluid">
+                <div class="row bg-title">
+                    <div class="col-lg-3 col-md-4 col-sm-4 col-xs-12">
+                        <h4 class="page-title"> </h4> </div>
+                    <!-- /.col-lg-12 -->
+                </div>
+                
+                <!-- change content -->
+                
+                
+					                <div class="row">
+					                    <div class="col-md-12">
+					                        <div class="white-box" id="ok">
+					                        		<span style="margin-left:45%;">
+					                        		 <button class="btn btn-primary" data-toggle="modal" data-target=".bd-example-modal-lg">Ajouter Un Etudiant</button>
+													</span>
+											 </div>
+					                    </div>
+					                   <div class="row">
+						                    <div class="col-sm-12">
+						                        <div class="white-box">
+						                            <h3 class="box-title">List des Etudiants</h3>
+						                          
+						                            <div class="table-responsive">
+						                                <table class="table display nowrap" id="example" >
+						                                    <thead>
+						                                        <tr>
+						                                            <th> Nom</th>
+						                                            <th> Prenom</th>
+						                                            <th> Rue</th>
+						                                            <th> Ville</th>
+						                                            <th> Specialite</th>
+						                                            <th>Option</th>
+						                                            
+						                                        </tr>
+						                                    </thead>
+						                                    <tfoot>
+						                                        <tr>
+						                                            <th> Nom</th>
+						                                            <th> Prenom</th>
+						                                            <th> Rue</th>
+						                                            <th> Ville</th>
+						                                            <th> Specialite</th>
+						                                            <th>Option</th>
+						                                            
+						                                        </tr>
+						                                   </tfoot>
+						                                    <tbody>
+						                                        <tr  th:each="etudiant : ${lstetudiant}">
+						                                            <td th:text="${etudiant.nom}"> etudiant Name</td>
+						                                             <td th:text="${etudiant.prenom}"> etudiant prenom</td>
+						                                             <td th:text="${etudiant.adresse.rue}"> etudiant rue</td>
+						                                             <td th:text="${etudiant.adresse.ville}"> etudiant ville</td>
+						                                             <td th:text="${etudiant.specialite}"> etudiant specialite</td>
+						                                            <td><a th:href="@{/deleteetudiant?(etudiantid=${etudiant.id})}"><img src="image/delete.png" /></a>  
+						                                            <a href="#" th:onclick="|update('${etudiant.id}')|" data-toggle="modal" data-target=".bd-modal-lg"><img src="image/refresh.png"/></a>
+						                                            <a href="#"><img src="image/bookshelf.png" data-toggle="modal" data-target=".list" th:onclick="|affichercours('${etudiant.id}')|" /></a>  
+						                                            <a href="#"><img src="image/notebook.png"  th:onclick="|getcours('${etudiant.id}')|" data-toggle="modal" data-target=".addbook-to-etudiant" /></a>  
+						                                            </td>
+						                                            
+						                                        </tr>
+						                                    
+						                                    </tbody>
+						                                    
+						                                </table>
+						                            </div>
+						                        </div>
+						                    </div>
+						                </div>
+					                   
+
+					
+					                   
+					                    
+					                </div>
+					                
+					             <!--  -->
+					             <div class="modal fade addbook-to-etudiant" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" >
+					  <div class="modal-dialog modal-lg">
+					    <div class="modal-content">
+					    
+					    	<div class="modal-header">
+       							 <h5 class="modal-title" id="exampleModalLabel">Ajouter un cours </h5>
+					      </div>
+					      	<div class="modal-body">
+						       <div class="col-md-12 col-xs-12">
+                        <div class="white-box">
+                                
+                                 <div class="form-group">
+                                    
+                                    <div class="col-md-12" id="new">
+                                        <label for="sel1">Select un cours:</label>
+									  <select class="form-control" id="sel1" multiple="multiple" >
+									    <option th:each="cour : ${lstcour}" value="${cour.id}" th:text="${cour.nom}">informatique</option>
+									  </select> </div>
+                                	</div>
+                                
+                                 
+                                
+                          <hr/>
+                              <input type="submit" value="Enregistrer" id="click"  class="btn btn-primary" />
+                              <input type="hidden" id="idetudiant"  name="idetudiant" class="btn btn-primary" />
+                        </div>
+                    </div>
+					      </div>
+					      	<div class="modal-footer">
+						        
+					      </div>
+					    	
+					      
+					    </div>
+					  </div>
+					</div>
+					             
+				<!-- Ajouter un cours a un etudiants -->  
+					             	 <div class="modal fade list" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" >
+					  <div class="modal-dialog modal-lg">
+					    <div class="modal-content">
+					    
+					    	<div class="modal-header">
+       							 <h5 class="modal-title" id="exampleModalLabel">Lists des cours  </h5>
+					      </div>
+					      	<div class="modal-body">
+						       <div class="col-md-12 col-xs-12">
+                        <div class="white-box">
+                                
+                                <table class="table display nowrap" id="example" >
+						                                    <thead>
+						                                        <tr>
+						                                            <th> Name</th>
+						                                            <th> Option</th>
+						                                            
+						                                        </tr>
+						                                    </thead>
+						                                    <tbody id="cours">
+						                                        
+						                                    </tbody>
+						                                    <tfoot>
+						                                     <tr>
+						                                            <th> Name</th>
+						                                             <th> Option</th>
+						                                        </tr>
+						                                    </tfoot>
+						                                </table>     
+                                
+                                 
+                                
+                         
+                        </div>
+                    </div>
+					      </div>
+					      	<div class="modal-footer">
+						        
+					      </div>
+					    	
+					      
+					    </div>
+					  </div>
+					</div>
+					          
+					 		        
+				<!--  --> 
+					                
+				<!-- Ajouter nouveaux Cours  -->	
+				
+				<div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" >
+					  <div class="modal-dialog modal-lg">
+					    <div class="modal-content">
+					    
+					    	<div class="modal-header">
+       							 <h5 class="modal-title" id="exampleModalLabel">Nouveau Etdiant</h5>
+					      </div>
+					      	<div class="modal-body">
+						       <div class="col-md-12 col-xs-12">
+                        <div class="white-box">
+                            <form class="form-horizontal form-material" method="get" action="/addetudiant" th:object="${etudiant}">
+                                <div class="form-group">
+                                    <label class="col-md-12"> Nom</label>
+                                    <div class="col-md-12">
+                                        <input type="text" placeholder="entrer votre nom" name="nom" class="form-control form-control-line"/> </div>
+                                </div>
+                                
+                                 <div class="form-group">
+                                    <label class="col-md-12">Prenon</label>
+                                    <div class="col-md-12">
+                                        <input type="text" placeholder="entrer votre prenom" name="prenom" class="form-control form-control-line"/> </div>
+                                </div>
+                                
+                                 <div class="form-group">
+                                    <label class="col-md-12">Adresse </label>
+                                    <div class="col-md-12">
+                                        <input type="text" placeholder="entrer votre adresse RUE " name="adresse.rue" class="form-control form-control-line"/> </div>
+                                        <div class="col-md-12">
+                                        <input type="text" placeholder="entrer votre adresse vILLE" name="adresse.ville" class="form-control form-control-line"/> </div>
+                                </div>
+                                
+                                 <div class="form-group">
+                                    <label class="col-md-12">Specialite</label>
+                                    <div class="col-md-12">
+                                        <input type="text" placeholder="entrer votre specialite" name="specialite" class="form-control form-control-line"/> </div>
+                                </div>
+                                
+                          <hr/>
+                              <input type="submit" value="Enregistrer"  class="btn btn-primary" />
+                            </form>
+                        </div>
+                    </div>
+					      </div>
+					      	<div class="modal-footer">
+						        
+					      </div>
+					    	
+					      
+					    </div>
+					  </div>
+					</div> 
+					
+					
+						                
+				<!-- Modifeir nouveaux  -->	
+				
+				<div class="modal fade bd-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" >
+					  <div class="modal-dialog modal-lg">
+					    <div class="modal-content">
+					    
+					    	<div class="modal-header">
+       							 <h5 class="modal-title" id="exampleModalLabel">Update Etdiant</h5>
+					      </div>
+					      	<div class="modal-body">
+						       <div class="col-md-12 col-xs-12">
+                        <div class="white-box">
+                            <form class="form-horizontal form-material" method="get" action="/updateinfosetudiant" >
+                                <div class="form-group">
+                                    <label class="col-md-12"> Nom</label>
+                                    <div class="col-md-12">
+                                        <input type="text" placeholder="entrer votre nom" name="nom"  id="nom" class="form-control form-control-line"/> </div>
+                                </div>
+                                
+                                 <div class="form-group">
+                                    <label class="col-md-12">Prenon</label>
+                                    <div class="col-md-12">
+                                        <input type="text" placeholder="entrer votre prenom" name="prenom" id="prenom" class="form-control form-control-line"/> </div>
+                                </div>
+                                
+                                 <div class="form-group">
+                                    <label class="col-md-12">Adresse </label>
+                                    <div class="col-md-12">
+                                        <input type="text" placeholder="entrer votre adresse RUE " name="adresse.rue" id="rue" class="form-control form-control-line"/> </div>
+                                        <div class="col-md-12">
+                                        <input type="text" placeholder="entrer votre adresse vILLE" name="adresse.ville" id="ville" class="form-control form-control-line"/> </div>
+                                </div>
+                                
+                                 <div class="form-group">
+                                    <label class="col-md-12">Specialite</label>
+                                    <div class="col-md-12">
+                                        <input type="text" placeholder="entrer votre specialite" name="specialite"  id="specialite" class="form-control form-control-line"/> </div>
+                                </div>
+                                
+                          <hr/>
+                              <input type="submit" value="Enregistrer"  class="btn btn-primary" />
+                              <input type="hidden" id="id"  name="idetu" class="btn btn-primary" />
+                            </form>
+                        </div>
+                    </div>
+					      </div>
+					      	<div class="modal-footer">
+						        
+					      </div>
+					    	
+					      
+					    </div>
+					  </div>
+					</div> 
+					                
+            </div>
+            <!-- /.container-fluid -->
+            <footer class="footer text-center"> 2017 &copy; </footer>
+        </div>
+        <!-- /#page-wrapper -->
+    </div>
+    <!-- /#wrapper -->
+    
+   
+   
+    
+   
+       
+        <!-- jQuery -->
+    <script src="plugins/bower_components/jquery/dist/jquery.min.js"></script>
+    <!-- Bootstrap Core JavaScript -->
+    <script src="bootstrap/dist/js/bootstrap.min.js"></script>
+    <!-- Menu Plugin JavaScript -->
+    <script src="plugins/bower_components/sidebar-nav/dist/sidebar-nav.min.js"></script>
+    <!--slimscroll JavaScript -->
+    <script src="js/jquery.slimscroll.js"></script>
+    <!--Wave Effects -->
+    <script src="js/waves.js"></script>
+    <!-- Custom Theme JavaScript -->
+    <script src="js/custom.min.js"></script>
+    
+    <!-- DataTables -->
+      
+      <script type="text/javascript" src=" https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
+        <script type="text/javascript" src="https://cdn.datatables.net/buttons/1.5.1/js/dataTables.buttons.min.js"></script>
+          <script type="text/javascript" src="https://cdn.datatables.net/buttons/1.5.1/js/buttons.flash.min.js"></script>
+            <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+             	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.32/pdfmake.min.js"></script>
+            <script type="text/javascript" src=" https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.32/vfs_fonts.jss"></script>
+          <script type="text/javascript" src=" https://cdn.datatables.net/buttons/1.5.1/js/buttons.html5.min.js"></script>
+         <script type="text/javascript" src=" https://cdn.datatables.net/buttons/1.5.1/js/buttons.print.min.js"></script>
+                    
+    <script type="text/javascript">
+    $(document).ready(function() {
+        $('#example').DataTable( {
+            dom: 'Bfrtip',
+            buttons: [
+                'copy', 'csv', 'excel', 'pdf', 'print'
+            ]
+        } );
+    } );
+    </script>
+
+    
+        <!-- 
+        
+     <script src="js/jquery.dataTables.min.js"></script>
+       <script src="js/dataTables.buttons.min.js"></script>
+       <script src="js/buttons.flash.min.js"></script>
+       <script src="js/jszip.min.js"></script>
+       <script src="js/pdfmake.min.js"></script>
+       <script src="js/vfs_fonts.js"></script>
+       <script src="js/buttons.html5.min.js"></script>
+       <script src="js/buttons.print.min.js"></script>
+         <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <script type="text/javascript">
+    $(document).ready(function() {
+        alert("okZ");
+        
+	    $('#example').DataTable( {
+	        dom: 'Bfrtip',
+	        buttons: [
+	            'copy', 'csv', 'excel', 'pdf', 'print'
+	        ],
+	        "paging": true,
+	        "lengthChange": false,
+	        "searching": false,
+	        "ordering": true,
+	        "info": true,
+	        "autoWidth": false
+	    } );
+	  alert("ok2");
+	 
+	} );
+   
+    </script> -->
+  
+</body>
+
+</html>
